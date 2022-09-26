@@ -1,0 +1,62 @@
+---
+title: "STAA 566 Assignment 1 ggplot"
+author: "EmilyStarer"
+format: html
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+#| echo: false
+library(knitr)
+library(tidyverse)
+library(ggpubr)
+library("tidyverse")
+library("dplyr")
+library("ggplot2")
+library(MASS)
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+library(readr)
+mediadata <- read.csv("MediaData.csv")
+head(mediadata,10)
+```
+
+```{r}
+---
+#make ggplot
+media_plot <- ggplot(data=mediadata,
+                     mapping=aes(x=Sales,
+                                 y=ROAS,
+                                 color=Campaign)) + 
+              geom_point(aes(size=Spend),
+                                  alpha=.5,
+                                  shape=16)
+                     
+#scale axis
+media_plot <- media_plot + scale_y_continuous(breaks = seq(0,60,by=10))
+
+
+media_plot <- media_plot + scale_x_discrete(breaks = seq(0,7500,by=250))
+
+#adjust legends
+media_plot <- media_plot + guides(size=FALSE,
+                    color=guide_legend(title="Campaign Type"))
+
+#add title
+media_plot <- media_plot + ggtitle(
+                            "Sales Conversions by ROAS by Campaign Type")
+media_plot
+
+```
