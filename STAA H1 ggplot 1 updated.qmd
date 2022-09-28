@@ -1,0 +1,51 @@
+---
+title: "STAA_HW1_ggplot_2"
+author: "Emily Starer"
+format: html
+editor: visual
+---
+
+```{r}
+#| echo: false
+library(knitr)
+library(tidyverse)
+library(ggpubr)
+library("tidyverse")
+library("dplyr")
+library("ggplot2")
+library(MASS)
+```
+
+```{r}
+#| echo: false
+library(readr)
+mediadata <- read.csv("MediaData.csv")
+head(mediadata,10)
+```
+
+```{r}
+#make ggplot
+media_plot <- ggplot(data=mediadata,
+                     mapping=aes(x=Sales,
+                                 y=ROAS,
+                                 color=Campaign)) + 
+              geom_point(aes(size=Spend),
+                                  alpha=.5,
+                                  shape=16)
+                     
+#scale axis
+media_plot <- media_plot + scale_y_continuous(breaks = seq(0,60,by=10))
+
+
+media_plot <- media_plot + scale_x_continuous(breaks = seq(0,7500,by=500)
+
+#adjust legends
+media_plot <- media_plot + guides(size=FALSE,
+                    color=guide_legend(title="Campaign Type"))
+
+#add title
+media_plot <- media_plot + ggtitle(
+                            "Sales Conversions by ROAS by Campaign Type")
+media_plot
+
+```
